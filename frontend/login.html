@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyBuddy - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-panel">
+        <div class="logo">
+          <h1 data-i18n="app.name">StudyBuddy</h1>
+          <p data-i18n="app.tagline">Minimal study planner for focused learners</p>
+        </div>
+
+        <div class="auth-toggle">
+          <button id="show-login" class="pill-btn active" data-i18n="auth.loginTab">Log In</button>
+          <button id="show-register" class="pill-btn" data-i18n="auth.registerTab">Sign Up</button>
+        </div>
+
+        <form id="login-form" class="auth-form">
+          <label>
+            <span data-i18n="auth.email">Email</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span data-i18n="auth.password">Password</span>
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit" class="primary-btn" data-i18n="auth.loginAction">Log In</button>
+        </form>
+
+        <form id="register-form" class="auth-form hidden">
+          <label>
+            <span data-i18n="auth.username">Username</span>
+            <input type="text" name="username" required />
+          </label>
+          <label>
+            <span data-i18n="auth.email">Email</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span data-i18n="auth.password">Password</span>
+            <input type="password" name="password" autocomplete="new-password" minlength="8" required />
+            <small class="field-hint" data-i18n="auth.passwordHint">Minimum 8 characters</small>
+          </label>
+          <button type="submit" class="primary-btn" data-i18n="auth.registerAction">Create Account</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="./assets/js/login.js"></script>
+  </body>
+</html>
+

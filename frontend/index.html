@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyBuddy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <!-- Sidebar -->
+      <aside class="app-sidebar">
+        <div class="sidebar-header">
+          <div class="logo-brand">
+            <img src="./assets/images/logo.png" alt="StudyBuddy Logo" class="logo-image" onerror="this.style.display='none'" />
+            <h1 class="logo-title">StudyBuddy</h1>
+          </div>
+          <p class="sidebar-tagline" data-i18n="app.tagline">Minimal study planner for focused learners</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+          <button class="sidebar-nav-btn active" data-tab="dashboard" data-i18n="tabs.dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Dashboard</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="lessons" data-i18n="tabs.lessons">
+            <span class="nav-icon">📚</span>
+            <span class="nav-text">My Lessons</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="reminders" data-i18n="tabs.reminders">
+            <span class="nav-icon">🔔</span>
+            <span class="nav-text">Reminders</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="tasks" data-i18n="tabs.tasks">
+            <span class="nav-icon">✓</span>
+            <span class="nav-text">Tasks</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="study" data-i18n="tabs.study">
+            <span class="nav-icon">🎯</span>
+            <span class="nav-text">Study Room</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="stats" data-i18n="tabs.stats">
+            <span class="nav-icon">📈</span>
+            <span class="nav-text">Statistics</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="profile" data-i18n="tabs.profile">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Profile</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <select id="language-selector" class="sidebar-language-select" aria-label="Select language">
+            <option value="en">EN</option>
+            <option value="tr">TR</option>
+            <option value="cs">CS</option>
+          </select>
+          <button id="logout-btn" class="sidebar-logout-btn" data-i18n="auth.logout" hidden>Logout</button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="app-main">
+        <header class="app-header" style="padding: 0; border: none; min-height: 0;">
+        </header>
+
+        <main>
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="tab-panel active">
+        <div class="dashboard-layout">
+          <!-- Main Calendar View -->
+          <div class="dashboard-calendar">
+            <div class="panel">
+              <div class="panel-header">
+                <h2 data-i18n="dashboard.heading">Dashboard</h2>
+                <p data-i18n="dashboard.subheading">Your study overview</p>
+              </div>
+
+              <div class="calendar-controls">
+                <button id="dashboard-calendar-prev" class="ghost-btn" data-i18n="calendarView.prev">← Prev</button>
+                <h3 id="dashboard-calendar-month-year"></h3>
+                <button id="dashboard-calendar-next" class="ghost-btn" data-i18n="calendarView.next">Next →</button>
+              </div>
+
+              <div id="dashboard-calendar-grid" class="calendar-month-grid"></div>
+            </div>
+          </div>
+
+          <!-- Right Sidebar: Today's Reminders & Tasks -->
+          <div class="dashboard-sidebar">
+            <!-- Today's Reminders Section -->
+            <div class="panel">
+              <div class="panel-header">
+                <h3 data-i18n="dashboard.todayReminders">Today's Reminders</h3>
+              </div>
+              <div id="reminders-list" class="reminders-list" aria-live="polite"></div>
+            </div>
+
+            <!-- Today's Tasks Section -->
+            <div class="panel">
+              <div class="panel-header">
+                <h3 data-i18n="dashboard.todayTasks">Today's Tasks</h3>
+              </div>
+              <div id="dashboard-tasks-list" class="tasks-list" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lessons Section -->
+      <section id="lessons" class="tab-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <h2 data-i18n="lessons.heading">My Lessons</h2>
+            <p data-i18n="lessons.subheading">Organize your classes and key dates</p>
+          </div>
+
+          <form id="lesson-form" class="inline-form">
+            <div class="field">
+              <label>
+                <span data-i18n="lessons.form.name">Lesson name</span>
+                <input type="text" name="name" required />
+              </label>
+            </div>
+            <div class="field">
+              <label>
+                <span data-i18n="lessons.form.color">Color</span>
+                <input type="color" name="color" value="#4A90E2" />
+              </label>
+            </div>
+            <button type="submit" class="primary-btn" data-i18n="lessons.form.add">Add Lesson</button>
+          </form>
+
+          <div id="lessons-list" class="grid-list" aria-live="polite"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3 data-i18n="lessons.examHeading">Add Exam</h3>
+            <p data-i18n="lessons.examSubheading">Mark important exam dates or deadlines</p>
+          </div>
+
+          <form id="exam-form" class="inline-form">
+            <div class="field">
+              <label>
+                <span data-i18n="lessons.examForm.lesson">Lesson</span>
+                <select name="lessonId" id="exam-lesson-select" required></select>
+              </label>
+            </div>
+            <div class="field">
+              <label>
+                <span data-i18n="lessons.examForm.date">Exam Date</span>
+                <input type="date" name="eventDate" required />
+              </label>
+            </div>
+            <button type="submit" class="primary-btn" data-i18n="lessons.examForm.add">Add Exam</button>
+          </form>
+
+          <div id="exams-list" class="exams-list" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Reminders Section -->
+      <section id="reminders" class="tab-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <h2 data-i18n="reminders.heading">Reminders</h2>
+            <p data-i18n="reminders.subheading">Add and manage your reminders</p>
+          </div>
+
+          <form id="reminder-form" class="inline-form">
+            <div class="field">
+              <label>
+                <span data-i18n="reminders.form.title">Event Title</span>
+                <input type="text" name="title" required />
+              </label>
+            </div>
+            <div class="field">
+              <label>
+                <span data-i18n="reminders.form.date">Date</span>
+                <input type="date" name="eventDate" required />
+              </label>
+            </div>
+            <div class="field">
+              <label>
+                <span data-i18n="reminders.form.lesson">Lesson (Optional)</span>
+                <select name="lessonId">
+                  <option value="">None</option>
+                </select>
+              </label>
+            </div>
+            <button type="submit" class="primary-btn" data-i18n="reminders.form.add">Add Reminder</button>
+          </form>
+
+          <div id="reminders-list-page" class="reminders-list" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Tasks Section -->
+      <section id="tasks" class="tab-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <h2 data-i18n="tasks.heading">Tasks</h2>
+            <p data-i18n="tasks.subheading">Manage your tasks and to-dos</p>
+          </div>
+
+          <form id="task-form" class="inline-form">
+            <div class="field">
+              <label>
+                <span data-i18n="tasks.form.title">Task Title</span>
+                <input type="text" name="title" data-i18n-placeholder="tasks.placeholder" placeholder="Add new task..." required />
+              </label>
+            </div>
+            <div class="field">
+              <label>
+                <span data-i18n="tasks.form.dueDate">Due Date (Optional)</span>
+                <input type="date" name="dueDate" />
+              </label>
+            </div>
+            <button type="submit" class="primary-btn" data-i18n="tasks.add">Add Task</button>
+          </form>
+
+          <div id="tasks-list" class="tasks-list" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Study Room -->
+      <section id="study" class="tab-panel">
+        <div class="study-room-layout">
+          <!-- Üst Kısım: Kronometre Göstergesi (Tam Genişlik) -->
+          <div class="study-room-timer-panel">
+            <div class="timer-display">
+              <div class="timer-time" id="timer-time">25:00</div>
+              <div class="timer-status" id="timer-status">Time to Focus!</div>
+            </div>
+            <div class="timer-buttons">
+              <button class="primary-btn" id="timer-start">Start</button>
+              <button class="ghost-btn" id="timer-stop" style="display: none;">Stop</button>
+              <button class="ghost-btn" id="timer-reset">Reset</button>
+              <button class="ghost-btn" id="timer-skip">Skip Break</button>
+            </div>
+          </div>
+
+          <!-- Alt Kısım: Ayarlar -->
+          <div class="study-room-settings-panel">
+            <div class="panel-header">
+              <h3>Settings</h3>
+            </div>
+            <div class="timer-controls">
+              <div class="field">
+                <label>
+                  <span>Select Lesson</span>
+                  <select id="timer-lesson">
+                    <option value="">-- Select a lesson --</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="field">
+                <label>
+                  <span>Mode</span>
+                  <select id="timer-mode">
+                    <option value="pomodoro" selected>Pomodoro (25/5)</option>
+                    <option value="ultradian">Ultradian (90/20)</option>
+                    <option value="timebox">Timebox (Custom)</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="custom-time" id="custom-time-fields" hidden>
+                <div class="field">
+                  <label>
+                    <span>Work (minutes)</span>
+                    <input type="number" id="custom-work" min="1" max="180" value="45" />
+                  </label>
+                </div>
+                <div class="field">
+                  <label>
+                    <span>Break (minutes)</span>
+                    <input type="number" id="custom-break" min="1" max="60" value="10" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current Study Session Info -->
+        <div class="panel" id="study-session-info" hidden>
+          <div class="panel-header">
+            <h3 data-i18n="study.currentSession">Current Study Session</h3>
+          </div>
+          <div class="study-session-details">
+            <div class="study-session-lesson">
+              <span data-i18n="study.session.lesson">Lesson:</span>
+              <span id="current-lesson-name">-</span>
+            </div>
+            <div class="study-session-time">
+              <span data-i18n="study.session.time">Time Studied:</span>
+              <span id="current-study-time">00:00</span>
+            </div>
+            <div class="study-session-technique">
+              <span data-i18n="study.session.technique">Technique:</span>
+              <span id="current-technique">-</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Statistics -->
+      <section id="stats" class="tab-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <h2 data-i18n="stats.heading">Analytics</h2>
+            <p data-i18n="stats.subheading">Understand where your focus time goes</p>
+          </div>
+
+          <div class="stats-filters">
+            <label>
+              <span data-i18n="stats.interval">Interval</span>
+              <select id="stats-interval">
+                <option value="weekly" data-i18n="stats.weekly">Weekly</option>
+                <option value="monthly" data-i18n="stats.monthly">Monthly</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="charts-grid">
+            <div class="chart-card">
+              <h3 data-i18n="stats.totalTime">Total Focus Time</h3>
+              <canvas id="chart-total-time"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3 data-i18n="stats.byLesson">Time by Lesson</h3>
+              <canvas id="chart-by-lesson"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3 data-i18n="stats.byHour">Most Focused Hours</h3>
+              <canvas id="chart-by-hour"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3 data-i18n="stats.byTechnique">Technique Completion</h3>
+              <canvas id="chart-by-technique"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile Section -->
+      <section id="profile" class="tab-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <h2 data-i18n="profile.heading">Profile Settings</h2>
+            <p data-i18n="profile.subheading">Manage your account information</p>
+          </div>
+
+          <!-- User Information -->
+          <form id="profile-form" class="auth-form">
+            <h3 data-i18n="profile.userInfo">User Information</h3>
+            <label>
+              <span data-i18n="profile.username">Username</span>
+              <input type="text" name="username" id="profile-username" required />
+            </label>
+            <label>
+              <span data-i18n="profile.email">Email</span>
+              <input type="email" name="email" id="profile-email" required />
+            </label>
+            <button type="submit" class="primary-btn" data-i18n="profile.updateInfo">Update Information</button>
+          </form>
+
+          <!-- Change Password -->
+          <form id="password-form" class="auth-form">
+            <h3 data-i18n="profile.changePassword">Change Password</h3>
+            <label>
+              <span data-i18n="profile.currentPassword">Current Password</span>
+              <input type="password" name="currentPassword" autocomplete="current-password" required />
+            </label>
+            <label>
+              <span data-i18n="profile.newPassword">New Password</span>
+              <input type="password" name="newPassword" autocomplete="new-password" minlength="8" required />
+              <small class="field-hint" data-i18n="auth.passwordHint">Minimum 8 characters</small>
+            </label>
+            <label>
+              <span data-i18n="profile.confirmPassword">Confirm New Password</span>
+              <input type="password" name="confirmPassword" autocomplete="new-password" minlength="8" required />
+            </label>
+            <button type="submit" class="primary-btn" data-i18n="profile.updatePassword">Update Password</button>
+          </form>
+        </div>
+      </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script type="module" src="./assets/js/main.js"></script>
+  </body>
+</html>
+
+
