@@ -1,4 +1,5 @@
 import { getTranslation, getCurrentLanguage } from "./i18n.js";
+import { isOfflineMode, offlineRequest } from "./offline-api.js";
 
 const reminderForm = document.getElementById("reminder-form");
 const remindersListPage = document.getElementById("reminders-list-page");
@@ -20,6 +21,10 @@ function authHeader() {
 }
 
 async function request(method, endpoint, payload) {
+  if (isOfflineMode()) {
+    return offlineRequest(method, endpoint, payload);
+  }
+
   const response = await fetch(`${config.apiBase}${endpoint}`, {
     method,
     headers: {

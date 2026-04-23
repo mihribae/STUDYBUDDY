@@ -1,4 +1,5 @@
 import { getTranslation, getCurrentLanguage } from "./i18n.js";
+import { isOfflineMode, offlineRequest } from "./offline-api.js";
 
 let lessons = [];
 let events = [];
@@ -36,6 +37,10 @@ function authHeader() {
 }
 
 async function request(method, endpoint, payload) {
+  if (isOfflineMode()) {
+    return offlineRequest(method, endpoint, payload);
+  }
+
   const response = await fetch(`${config.apiBase}${endpoint}`, {
     method,
     headers: {

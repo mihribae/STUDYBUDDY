@@ -1,4 +1,5 @@
 import { getTranslation, getCurrentLanguage } from "./i18n.js";
+import { isOfflineMode, offlineRequest } from "./offline-api.js";
 
 const taskForm = document.getElementById("task-form");
 const tasksList = document.getElementById("tasks-list");
@@ -18,6 +19,10 @@ function authHeader() {
 }
 
 async function request(method, endpoint, payload) {
+  if (isOfflineMode()) {
+    return offlineRequest(method, endpoint, payload);
+  }
+
   const response = await fetch(`${config.apiBase}${endpoint}`, {
     method,
     headers: {
