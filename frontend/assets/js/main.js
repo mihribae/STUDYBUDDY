@@ -8,8 +8,9 @@ import { initProfile } from "./profile.js";
 import { syncLessonsForCalendar } from "./calendar.js";
 import { initReminders, refreshReminders } from "./reminders.js";
 import { initTasks, refreshTasks } from "./tasks.js";
+import { resolveStudyBuddyApiBase } from "./api-base.js";
 
-const API_BASE = window.__STUDYBUDDY_API__ ?? "http://localhost:4000/api";
+const API_BASE = resolveStudyBuddyApiBase();
 const BYPASS_AUTH = window.__STUDYBUDDY_BYPASS_AUTH__ ?? true;
 
 const tabs = Array.from(document.querySelectorAll(".sidebar-nav-btn"));

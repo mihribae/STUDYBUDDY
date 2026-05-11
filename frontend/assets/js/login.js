@@ -1,7 +1,8 @@
 import { initI18n } from "./i18n.js";
 import { getTranslation } from "./i18n.js";
+import { resolveStudyBuddyApiBase } from "./api-base.js";
 
-const API_BASE = window.__STUDYBUDDY_API__ ?? "http://localhost:4000/api";
+const API_BASE = resolveStudyBuddyApiBase();
 const storageKey = "studybuddy:token";
 
 const loginForm = document.getElementById("login-form");

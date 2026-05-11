@@ -28,7 +28,13 @@ app.use(
         scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://www.gstatic.com"],
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", "https://cdn.jsdelivr.net"],
+        connectSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          ...(env.nodeEnv === "development"
+            ? ["http://localhost:4000", "http://127.0.0.1:4000", "ws:", "wss:"]
+            : [])
+        ],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         objectSrc: ["'none'"],
         mediaSrc: ["'self'"],
